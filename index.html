@@ -42,7 +42,7 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active" v-for="(catalog, index) in catalogs" v-on:click="selectCatalog(catalog.id)">
+            <li class="nav-item active" v-for="(catalog, index) in catalogs" v-on:click="getProducts(catalog.id)">
                 <!-- <a class="nav-link" href="index.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>-->
@@ -110,7 +110,7 @@
 
                         <!-- Nav Item - Cart -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" id="messagesDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" id="messagesDropdown" 
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-shopping-bag fa-fw"></i>
                                 <!-- Counter - Cart -->
@@ -147,6 +147,9 @@
                                         </div>
                                         <div class="small text-gray-500">Sub-total: ${{ formatPrice(cart.subtotal) }}
                                         </div>
+                                    </div>
+                                    <div>
+                                        <div class="small text-gray-500"><i class="fa fa-trash"></i></div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500">
@@ -193,7 +196,7 @@
                     <!-- Content Row -->
                     <div class="row">
                         <div class="col-lg-3 mb-4 text-center" v-for="(prd, index) in products">
-                            <div class="product-entry border" v-show="id_category == prd.category.id">
+                            <div class="product-entry border">
                                 <a href="#" class="prod-img" style="margin-top: 15px;">
                                     <img :src="prd.photo" class="img-fluid" width="100" height="100"
                                         @click="showModal(prd.id)">
@@ -280,7 +283,7 @@
                                                             <div class="row" style="margin: 15px;">
                                                                 <div class="col-sm-12">
                                                                     <div class="number-input">
-                                                                        <button type="button" v-on:click="increaseModal(details_product.id)"></button>
+                                                                        <button type="button" v-on:click="increase(details_product.id)"></button>
                                                                         <input class="quantity" min="0" name="quantity" value="1" type="number"
                                                                             v-model="details_product.count">
                                                                         <button type="button"  @click="decrease(details_product.id)"
