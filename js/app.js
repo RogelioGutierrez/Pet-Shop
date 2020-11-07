@@ -9,7 +9,8 @@ const app = new Vue({
         catalogs: [],
         id_category: 1,
         products: [],
-        input: []
+        input_prd: [],
+        carts: []
     },
     methods:{
         getCategories(){
@@ -37,13 +38,35 @@ const app = new Vue({
         selectCatalog(id_category){
             this.id_category = id_category;
         },
-        morePrd(id_product){
-            console.log(id_product);
-            console.log(this.input);
-        },
         formatPrice(value) {
             let val = (value/1).toFixed(2).replace('.', ',')
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
-        }
+        },
+        addCart(prdt, count){
+            console.log(prdt);
+            for(product of this.products){
+                console.log(product.id);
+                console.log(prdt);
+                console.log(prdt == product.id);
+                if(prdt == product.id){
+                    product_name  = product.name;
+                    product_id = product.id;
+                    product_photo = product.photo;
+                    product_price = product.price;
+                    product_subtotal = count * parseInt(product.price);
+                    this.carts.push({
+                        name: product_name,
+                        id :product_id,
+                        photo: product_photo,
+                        price: product_price,
+                        count: count,
+                        subtotal: product_subtotal
+                    });
+                    break;
+                }
+            }
+        },
+    },
+    computed:{
     }
 })

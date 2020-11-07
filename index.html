@@ -90,7 +90,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-search fa-fw"></i>
                             </a>
-                            <!-- Dropdown - Messages -->
+                            <!-- Dropdown -->
                             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
                                 aria-labelledby="searchDropdown">
                                 <form class="form-inline mr-auto w-100 navbar-search">
@@ -108,66 +108,28 @@
                             </div>
                         </li>
 
-                        <!-- Nav Item - Messages -->
+                        <!-- Nav Item - Cart -->
                         <li class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-shopping-bag fa-fw"></i>
-                                <!-- Counter - Messages -->
+                                <!-- Counter - Cart -->
                                 <span class="badge badge-danger badge-counter">7</span>
                             </a>
-                            <!-- Dropdown - Messages -->
+                            <!-- Dropdown - Cart -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="messagesDropdown">
                                 <h6 class="dropdown-header">
                                     Resumen de Compra
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
+                                </h6> <a class="dropdown-item d-flex align-items-center" v-for="(cart, index) in carts">
                                     <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_1.svg" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a
-                                            problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_2.svg" alt="">
-                                        <div class="status-indicator"></div>
+                                        <img class="rounded-circle" :src="cart.photo" alt="">
                                     </div>
                                     <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how
-                                            would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
+                                        <div class="text-truncate">{{cart.name}}</div>
+                                        <div class="small text-gray-500">${{ formatPrice(cart.price) }}</div>
                                     </div>
                                 </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="img/undraw_profile_3.svg" alt="">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with
-                                            the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
-                                            alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone
-                                            told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
                             </div>
                         </li>
 
@@ -206,58 +168,60 @@
 
                     <!-- Content Row -->
                     <div class="row">
-                        <div class="col-lg-3 mb-4 text-center" v-for="(prd, index) in products"
-                            v-on:click="selectCatalog(prd.id)">
-                            <div class="product-entry border" v-show="id_category == prd.category.id">
-                                <a href="#" class="prod-img" style="margin-top: 15px;">
-                                    <img :src="prd.photo" class="img-fluid" width="100" height="100">
-                                </a>
-                                <div class="desc" style="margin-bottom: 15px;">
-                                    <h2><a href="#">{{prd.name}}</a></h2>
-                                    <span class="price">${{ formatPrice(prd.price) }}</span>
-                                </div>
-                                <div class="row" style="margin: 15px;">
-                                    <div class="col-sm-12">
-                                        <div class="number-input">
-                                            <button
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                            <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                            <button
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                class="plus"></button>
-                                        </div>
+                        <div class="col-lg-3 mb-4 text-center" v-for="(prd, index) in products">
+                                <div class="product-entry border" v-show="id_category == prd.category.id">
+                                    <a href="#" class="prod-img" style="margin-top: 15px;">
+                                        <img :src="prd.photo" class="img-fluid" width="100" height="100">
+                                    </a>
+                                    <div class="desc" style="margin-bottom: 15px;">
+                                        <h2><a href="#">{{prd.name}}</a></h2>
+                                        <span class="price">${{ formatPrice(prd.price) }}</span>
                                     </div>
-                                    <!--<div class="col-sm-6 pull-right" style="float: right; text-align: right;">
+                                    <div class="row" style="margin: 15px;">
+                                        <div class="col-sm-12">
+                                            <div class="number-input">
+                                                <button type="button"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
+                                                <input class="quantity" min="0" name="quantity" value="1" type="number"
+                                                    v-model="input_prd[prd.id]">
+                                                <button type="button"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                    class="plus"></button>
+                                            </div>
+                                        </div>
+                                        <!--<div class="col-sm-6 pull-right" style="float: right; text-align: right;">
                                         <button type="button" class="btn btn-primary"><i class="fa fa-shopping-bag"></i></button>
                                     </div>-->
-                                </div>
-                                <div class="row" style="margin: 15px;">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i></button>
                                     </div>
-                                </div>
-                            </div>
+                                    <div class="row" style="margin: 15px;">
+                                        <div class="col-sm-12">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block" @click="addCart(prd.id, input_prd[prd.id])">
+                                                <i class="fa fa-shopping-bag"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- /.container-fluid -->
 
             </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
+            <!-- /.container-fluid -->
 
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- End of Main Content -->
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Your Website 2020</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
 
     </div>
     <!-- End of Page Wrapper -->

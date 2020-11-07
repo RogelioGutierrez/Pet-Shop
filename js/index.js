@@ -54,7 +54,3 @@
   });
 
 })(jQuery); // End of use strict
-
-function morePrd(id){
-  console.log(id);
-}
