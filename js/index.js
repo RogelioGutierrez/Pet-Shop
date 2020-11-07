@@ -55,6 +55,6 @@
 
 })(jQuery); // End of use strict
 
-function addPrd(id){
+function morePrd(id){
   console.log(id);
 }

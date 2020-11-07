@@ -40,6 +40,10 @@ const app = new Vue({
         morePrd(id_product){
             console.log(id_product);
             console.log(this.input);
+        },
+        formatPrice(value) {
+            let val = (value/1).toFixed(2).replace('.', ',')
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         }
     }
 })
