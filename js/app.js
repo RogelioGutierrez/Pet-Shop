@@ -12,7 +12,9 @@ const app = new Vue({
         input_prd: [],
         carts: [],
         total_carts: 0,
-        total_cart: 0
+        total_cart: 0,
+        detailModal: false,
+        details_product: { }
     },
     methods:{
         getCategories(){
@@ -70,6 +72,18 @@ const app = new Vue({
             }
             this.total_carts = this.carts.length;
         },
+        showModal(prd) {
+            for(product of this.products){
+                console.log(product.id);
+                console.log(prd);
+                console.log(prd == product.id);
+                if(prd == product.id){
+                    this.details_product = product;
+                    break;
+                }
+            }
+            this.detailModal = true;
+        }
     },
     computed:{
     }

@@ -35,7 +35,7 @@
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">{{title}}</div>
+                <div class="sidebar-brand-text mx-3">{{ title }}</div>
             </a>
 
             <!-- Divider -->
@@ -132,15 +132,21 @@
                                     <div>
                                         <div class="input-group col-sm-8">
                                             <div class="input-group-prepend">
-                                                <div class="input-group-text" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</div>
+                                                <div class="input-group-text"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                    -</div>
                                             </div>
-                                            <input type="number" class="form-control" value="0" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                                            <input type="number" class="form-control" value="0" v-model="cart.count"
+                                                aria-label="Input group example" aria-describedby="btnGroupAddon">
 
                                             <div class="input-group-prepend">
-                                                <div class="input-group-text" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</div>
+                                                <div class="input-group-text"
+                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                    +</div>
                                             </div>
-                                            </div>
-                                        <div class="small text-gray-500">Sub-total: ${{ formatPrice(cart.subtotal) }}</div>
+                                        </div>
+                                        <div class="small text-gray-500">Sub-total: ${{ formatPrice(cart.subtotal) }}
+                                        </div>
                                     </div>
                                 </a>
                                 <a class="dropdown-item text-center small text-gray-500">
@@ -155,7 +161,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Rogelio Gutiérrez</span>
                                 <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                             </a>
                             <!-- Dropdown - User Information -->
@@ -163,13 +169,13 @@
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item" href="#">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Profile
+                                    Perfil
                                 </a>
 
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Cerrar Sesión
                                 </a>
                             </div>
                         </li>
@@ -185,60 +191,128 @@
                     <!-- Content Row -->
                     <div class="row">
                         <div class="col-lg-3 mb-4 text-center" v-for="(prd, index) in products">
-                                <div class="product-entry border" v-show="id_category == prd.category.id">
-                                    <a href="#" class="prod-img" style="margin-top: 15px;">
-                                        <img :src="prd.photo" class="img-fluid" width="100" height="100">
-                                    </a>
-                                    <div class="desc" style="margin-bottom: 15px;">
-                                        <h2><a href="#">{{prd.name}}</a></h2>
-                                        <span class="price">${{ formatPrice(prd.price) }}</span>
+                            <div class="product-entry border" v-show="id_category == prd.category.id">
+                                <a href="#" class="prod-img" style="margin-top: 15px;">
+                                    <img :src="prd.photo" class="img-fluid" width="100" height="100"
+                                        @click="showModal(prd.id)">
+                                </a>
+                                <div class="desc" style="margin-bottom: 15px;">
+                                    <h2><a href="#">{{prd.name}}</a></h2>
+                                    <span class="price">${{ formatPrice(prd.price) }}</span>
+                                </div>
+                                <div class="row" style="margin: 15px;">
+                                    <div class="col-sm-12">
+                                        <div class="number-input">
+                                            <button type="button"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
+                                            <input class="quantity" min="0" name="quantity" value="1" type="number"
+                                                v-model="input_prd[prd.id]">
+                                            <button type="button"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                class="plus"></button>
+                                        </div>
                                     </div>
-                                    <div class="row" style="margin: 15px;">
-                                        <div class="col-sm-12">
-                                            <div class="number-input">
-                                                <button type="button"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                                <input class="quantity" min="0" name="quantity" value="1" type="number"
-                                                    v-model="input_prd[prd.id]">
-                                                <button type="button"
-                                                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
-                                                    class="plus"></button>
+                                </div>
+                                <div class="row" style="margin: 15px;">
+                                    <div class="col-sm-12">
+                                        <button type="submit" class="btn btn-primary btn-lg btn-block"
+                                            @click="addCart(prd.id, input_prd[prd.id])">
+                                            <i class="fa fa-shopping-bag"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2020</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+        <div v-if="detailModal">
+            <transition name="model">
+                <div class="modal-mask">
+                    <div class="modal-wrapper">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" @click="detailModal=false"><span
+                                            aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title"></h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="product_image_area">
+                                        <div class="container">
+                                            <div class="row s_product_inner">
+                                                <div class="col-lg-6">
+                                                    <img class="img-fluid" :src="details_product.photo" alt="">
+                                                </div>
+                                                <div class="col-lg-5 offset-lg-1">
+                                                    <div class="s_product_text">
+                                                        <h3>{{details_product.name}}</h3>
+                                                        <h2>${{ formatPrice(details_product.price) }}</h2>
+                                                        <ul class="list">
+                                                            <li>
+                                                                <a class="active" href="#">
+                                                                    <span>Categoria</span>
+                                                                    :{{details_product.category.name}}
+                                                                </a>
+                                                            </li>
+                                                            <li><a href="#"><span>Availibility</span> : In Stock</a>
+                                                            </li>
+                                                        </ul>
+                                                        <p>{{details_product.description}}</p>
+                                                        <div class="product_count">
+                                                            <div class="row" style="margin: 15px;">
+                                                                <div class="col-sm-12">
+                                                                    <div class="number-input">
+                                                                        <button type="button"
+                                                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
+                                                                        <input class="quantity" min="0" name="quantity"
+                                                                            value="1" type="number"
+                                                                            v-model="input_prd[details_product.id]">
+                                                                        <button type="button"
+                                                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                                            class="plus"></button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row" style="margin: 15px;">
+                                                            <div class="col-sm-12">
+                                                                <button type="submit"
+                                                                    class="btn btn-primary btn-lg btn-block"
+                                                                    @click="addCart(details_product.id, input_prd[details_product.id])">
+                                                                    <i class="fa fa-shopping-bag"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        <!--<div class="col-sm-6 pull-right" style="float: right; text-align: right;">
-                                        <button type="button" class="btn btn-primary"><i class="fa fa-shopping-bag"></i></button>
-                                    </div>-->
                                     </div>
-                                    <div class="row" style="margin: 15px;">
-                                        <div class="col-sm-12">
-                                            <button type="submit" class="btn btn-primary btn-lg btn-block" @click="addCart(prd.id, input_prd[prd.id])">
-                                                <i class="fa fa-shopping-bag"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-            </div>
-            <!-- /.container-fluid -->
-
+            </transition>
         </div>
-        <!-- End of Main Content -->
-
-        <!-- Footer -->
-        <footer class="sticky-footer bg-white">
-            <div class="container my-auto">
-                <div class="copyright text-center my-auto">
-                    <span>Copyright &copy; Your Website 2020</span>
-                </div>
-            </div>
-        </footer>
-        <!-- End of Footer -->
-
-    </div>
-    <!-- End of Content Wrapper -->
-
     </div>
     <!-- End of Page Wrapper -->
 
@@ -246,26 +320,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
