@@ -10,7 +10,9 @@ const app = new Vue({
         id_category: 1,
         products: [],
         input_prd: [],
-        carts: []
+        carts: [],
+        total_carts: 0,
+        total_cart: 0
     },
     methods:{
         getCategories(){
@@ -54,6 +56,7 @@ const app = new Vue({
                     product_photo = product.photo;
                     product_price = product.price;
                     product_subtotal = count * parseInt(product.price);
+                    this.total_cart = parseFloat(product.price) + parseFloat(this.total_cart);
                     this.carts.push({
                         name: product_name,
                         id :product_id,
@@ -65,6 +68,7 @@ const app = new Vue({
                     break;
                 }
             }
+            this.total_carts = this.carts.length;
         },
     },
     computed:{

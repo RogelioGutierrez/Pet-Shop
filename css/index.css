@@ -11338,3 +11338,11 @@ input[type=number]::-webkit-outer-spin-button {
   font-weight: bold;
   text-align: center;
 }
+
+.topbar .dropdown-list {
+  width: 27rem !important;
+}
+
+.topbar .dropdown-list .dropdown-item .text-truncate {
+  max-width: 11.375rem;
+}

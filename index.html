@@ -110,11 +110,11 @@
 
                         <!-- Nav Item - Cart -->
                         <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
+                            <a class="nav-link dropdown-toggle" id="messagesDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-shopping-bag fa-fw"></i>
                                 <!-- Counter - Cart -->
-                                <span class="badge badge-danger badge-counter">7</span>
+                                <span class="badge badge-danger badge-counter">{{total_carts}}</span>
                             </a>
                             <!-- Dropdown - Cart -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -129,6 +129,22 @@
                                         <div class="text-truncate">{{cart.name}}</div>
                                         <div class="small text-gray-500">${{ formatPrice(cart.price) }}</div>
                                     </div>
+                                    <div>
+                                        <div class="input-group col-sm-8">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text" onclick="this.parentNode.querySelector('input[type=number]').stepDown()">-</div>
+                                            </div>
+                                            <input type="number" class="form-control" value="0" aria-label="Input group example" aria-describedby="btnGroupAddon">
+
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text" onclick="this.parentNode.querySelector('input[type=number]').stepUp()">+</div>
+                                            </div>
+                                            </div>
+                                        <div class="small text-gray-500">Sub-total: ${{ formatPrice(cart.subtotal) }}</div>
+                                    </div>
+                                </a>
+                                <a class="dropdown-item text-center small text-gray-500">
+                                    Total: ${{ formatPrice(total_cart) }}
                                 </a>
                             </div>
                         </li>
