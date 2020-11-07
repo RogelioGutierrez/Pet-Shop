@@ -20,7 +20,6 @@ const app = new Vue({
         getCategories(){
             axios.get('http://sva.talana.com:8000/api/product-category')
             .then(response=>{
-                console.log(response.data);
                 this.catalogs = response.data;
             })
             .catch(e=>{
@@ -30,24 +29,16 @@ const app = new Vue({
         getProducts(){
             axios.get('http://sva.talana.com:8000/api/product/')
             .then(response=>{
-                console.log(response.data);
-                //this.catalogs = response.data;
-               // this.products = response.data;
                 for(product of response.data){
-                    product_name  = product.name;
-                    product_id = product.id;
-                    product_photo = product.photo;
-                    product_price = product.price;
-                    category  = product.category;
-                    count = 0;
                     this.products.push({
-                        name: product_name,
-                        id :product_id,
-                        photo: product_photo,
-                        price: product_price,
-                        count: count,
-                        category: category,
-                        count : count
+                        name: product.name,
+                        id: product.id,
+                        photo: product.photo,
+                        price: product.price,
+                        count: 0,
+                        category: product.category,
+                        description: product.description,
+                        stock: product.stock
                     });
                 }
             })
@@ -81,9 +72,6 @@ const app = new Vue({
         },
         showModal(prd) {
             for(product of this.products){
-                console.log(product.id);
-                console.log(prd);
-                console.log(prd == product.id);
                 if(prd == product.id){
                     this.details_product = product;
                     break;
@@ -100,8 +88,10 @@ const app = new Vue({
                         id: product.id,
                         photo: product.photo,
                         price: product.price,
+                        count: parseInt(product.count) >= 1 ? parseInt(product.count) - 1 : 0,
                         category: product.category,
-                        count: parseInt(product.count) >= 1 ? parseInt(product.count) - 1 : 0
+                        description: product.description,
+                        stock: product.stock
                     });
                 }else{
                     newproducts.push(product);
@@ -113,20 +103,15 @@ const app = new Vue({
             newproducts = [];
             for(product of this.products){
                 if(idprd == product.id){
-                    product_name  = product.name;
-                    product_id = product.id;
-                    product_photo = product.photo;
-                    product_price = product.price;
-                    category  = product.category;
-                    count = parseInt(product.count) + 1;
                     newproducts.push({
-                        name: product_name,
-                        id :product_id,
-                        photo: product_photo,
-                        price: product_price,
-                        count: count,
-                        category: category,
-                        count : count
+                        name: product.name,
+                        id: product.id,
+                        photo: product.photo,
+                        price: product.price,
+                        count: parseInt(product.count) < product.stock ? parseInt(product.count) + 1 :  parseInt(product.count),
+                        category: product.category,
+                        description: product.description,
+                        stock: product.stock
                     });
                 }else{
                     newproducts.push(product);
@@ -134,7 +119,5 @@ const app = new Vue({
             }
             this.products = newproducts;
         }
-    },
-    computed:{
     }
 })
