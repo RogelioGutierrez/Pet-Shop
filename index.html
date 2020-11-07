@@ -280,7 +280,7 @@
                                                             <div class="row" style="margin: 15px;">
                                                                 <div class="col-sm-12">
                                                                     <div class="number-input">
-                                                                        <button type="button" v-on:click="increase(details_product.id)"></button>
+                                                                        <button type="button" v-on:click="increaseModal(details_product.id)"></button>
                                                                         <input class="quantity" min="0" name="quantity" value="1" type="number"
                                                                             v-model="details_product.count">
                                                                         <button type="button"  @click="decrease(details_product.id)"
@@ -291,9 +291,9 @@
                                                         </div>
                                                         <div class="row" style="margin: 15px;">
                                                             <div class="col-sm-12">
-                                                                <button type="submit"
+                                                                <button type="button"
                                                                     class="btn btn-primary btn-lg btn-block"
-                                                                    @click="addCart(details_product.id, input_prd[details_product.id])">
+                                                                    @click="addCartModal(details_product.id, details_product.count)">
                                                                     <i class="fa fa-shopping-bag"></i>
                                                                 </button>
                                                             </div>

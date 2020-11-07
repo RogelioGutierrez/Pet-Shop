@@ -70,6 +70,25 @@ const app = new Vue({
             }
             this.total_carts = this.carts.length;
         },
+        addCartModal(prdt, count){
+            console.log(prdt);
+            for(product of this.products){
+                if(prdt == product.id){
+                    this.total_cart = (count * parseInt(product.price)) + parseFloat(this.total_cart);
+                    this.carts.push({
+                        name:  product.name,
+                        id : product.id,
+                        photo: product.photo,
+                        price: product.price,
+                        count: count,
+                        subtotal: count * parseInt(product.price)
+                    });
+                    break;
+                }
+            }
+            this.total_carts = this.carts.length;
+            this.detailModal = false;
+        },
         showModal(prd) {
             for(product of this.products){
                 if(prd == product.id){
@@ -80,10 +99,11 @@ const app = new Vue({
             this.detailModal = true;
         },
         increase(idprd) {
-            newproducts = [];
+            var listproducts = [];
+            var singleproduct = {};
             for(product of this.products){
                 if(idprd == product.id){
-                    newproducts.push({
+                    listproducts.push({
                         name: product.name,
                         id: product.id,
                         photo: product.photo,
@@ -93,17 +113,30 @@ const app = new Vue({
                         description: product.description,
                         stock: product.stock
                     });
+
+                    singleproduct = {
+                        name: product.name,
+                        id: product.id,
+                        photo: product.photo,
+                        price: product.price,
+                        count: parseInt(product.count) >= 1 ? parseInt(product.count) - 1 : 0,
+                        category: product.category,
+                        description: product.description,
+                        stock: product.stock
+                    };
                 }else{
-                    newproducts.push(product);
+                    listproducts.push(product);
                 }
             }
-            this.products = newproducts;
+            this.products = listproducts;
+            this.details_product = singleproduct;
         },
         decrease(idprd){
-            newproducts = [];
+            var listproducts = [];
+            var singleproduct = {};
             for(product of this.products){
                 if(idprd == product.id){
-                    newproducts.push({
+                    listproducts.push({
                         name: product.name,
                         id: product.id,
                         photo: product.photo,
@@ -113,11 +146,23 @@ const app = new Vue({
                         description: product.description,
                         stock: product.stock
                     });
+
+                    singleproduct = {
+                        name: product.name,
+                        id: product.id,
+                        photo: product.photo,
+                        price: product.price,
+                        count: parseInt(product.count) < product.stock ? parseInt(product.count) + 1 :  parseInt(product.count),
+                        category: product.category,
+                        description: product.description,
+                        stock: product.stock
+                    };
                 }else{
-                    newproducts.push(product);
+                    listproducts.push(product);
                 }
             }
-            this.products = newproducts;
+            this.products = listproducts;
+            this.details_product = singleproduct;
         }
     }
 })
