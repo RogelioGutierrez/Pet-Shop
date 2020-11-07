@@ -32,8 +32,24 @@ const app = new Vue({
             .then(response=>{
                 console.log(response.data);
                 //this.catalogs = response.data;
-                this.products = response.data;
-               
+               // this.products = response.data;
+                for(product of response.data){
+                    product_name  = product.name;
+                    product_id = product.id;
+                    product_photo = product.photo;
+                    product_price = product.price;
+                    category  = product.category;
+                    count = 0;
+                    this.products.push({
+                        name: product_name,
+                        id :product_id,
+                        photo: product_photo,
+                        price: product_price,
+                        count: count,
+                        category: category,
+                        count : count
+                    });
+                }
             })
             .catch(e=>{
                 console.log(e);
@@ -47,25 +63,16 @@ const app = new Vue({
             return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
         },
         addCart(prdt, count){
-            console.log(prdt);
             for(product of this.products){
-                console.log(product.id);
-                console.log(prdt);
-                console.log(prdt == product.id);
                 if(prdt == product.id){
-                    product_name  = product.name;
-                    product_id = product.id;
-                    product_photo = product.photo;
-                    product_price = product.price;
-                    product_subtotal = count * parseInt(product.price);
-                    this.total_cart = parseFloat(product.price) + parseFloat(this.total_cart);
+                    this.total_cart = (count * parseInt(product.price)) + parseFloat(this.total_cart);
                     this.carts.push({
-                        name: product_name,
-                        id :product_id,
-                        photo: product_photo,
-                        price: product_price,
+                        name:  product.name,
+                        id : product.id,
+                        photo: product.photo,
+                        price: product.price,
                         count: count,
-                        subtotal: product_subtotal
+                        subtotal: count * parseInt(product.price)
                     });
                     break;
                 }
@@ -83,6 +90,49 @@ const app = new Vue({
                 }
             }
             this.detailModal = true;
+        },
+        increase(idprd) {
+            newproducts = [];
+            for(product of this.products){
+                if(idprd == product.id){
+                    newproducts.push({
+                        name: product.name,
+                        id: product.id,
+                        photo: product.photo,
+                        price: product.price,
+                        category: product.category,
+                        count: parseInt(product.count) >= 1 ? parseInt(product.count) - 1 : 0
+                    });
+                }else{
+                    newproducts.push(product);
+                }
+            }
+            this.products = newproducts;
+        },
+        decrease(idprd){
+            newproducts = [];
+            for(product of this.products){
+                if(idprd == product.id){
+                    product_name  = product.name;
+                    product_id = product.id;
+                    product_photo = product.photo;
+                    product_price = product.price;
+                    category  = product.category;
+                    count = parseInt(product.count) + 1;
+                    newproducts.push({
+                        name: product_name,
+                        id :product_id,
+                        photo: product_photo,
+                        price: product_price,
+                        count: count,
+                        category: category,
+                        count : count
+                    });
+                }else{
+                    newproducts.push(product);
+                }
+            }
+            this.products = newproducts;
         }
     },
     computed:{

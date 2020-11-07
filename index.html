@@ -188,6 +188,8 @@
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
+                   
+
                     <!-- Content Row -->
                     <div class="row">
                         <div class="col-lg-3 mb-4 text-center" v-for="(prd, index) in products">
@@ -203,12 +205,10 @@
                                 <div class="row" style="margin: 15px;">
                                     <div class="col-sm-12">
                                         <div class="number-input">
-                                            <button type="button"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
+                                            <button type="button" v-on:click="increase(prd.id)"></button>
                                             <input class="quantity" min="0" name="quantity" value="1" type="number"
-                                                v-model="input_prd[prd.id]">
-                                            <button type="button"
-                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                v-model="prd.count">
+                                            <button type="button"  @click="decrease(prd.id)"
                                                 class="plus"></button>
                                         </div>
                                     </div>
@@ -216,7 +216,7 @@
                                 <div class="row" style="margin: 15px;">
                                     <div class="col-sm-12">
                                         <button type="submit" class="btn btn-primary btn-lg btn-block"
-                                            @click="addCart(prd.id, input_prd[prd.id])">
+                                            @click="addCart(prd.id, prd.count)">
                                             <i class="fa fa-shopping-bag"></i>
                                         </button>
                                     </div>
@@ -272,7 +272,7 @@
                                                                     :{{details_product.category.name}}
                                                                 </a>
                                                             </li>
-                                                            <li><a href="#"><span>Availibility</span> : In Stock</a>
+                                                            <li><a href="#"><span>Disponibilidad</span> : En Stock</a>
                                                             </li>
                                                         </ul>
                                                         <p>{{details_product.description}}</p>
@@ -280,13 +280,10 @@
                                                             <div class="row" style="margin: 15px;">
                                                                 <div class="col-sm-12">
                                                                     <div class="number-input">
-                                                                        <button type="button"
-                                                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()"></button>
-                                                                        <input class="quantity" min="0" name="quantity"
-                                                                            value="1" type="number"
-                                                                            v-model="input_prd[details_product.id]">
-                                                                        <button type="button"
-                                                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()"
+                                                                        <button type="button" v-on:click="increase(details_product.id)"></button>
+                                                                        <input class="quantity" min="0" name="quantity" value="1" type="number"
+                                                                            v-model="details_product.count">
+                                                                        <button type="button"  @click="decrease(details_product.id)"
                                                                             class="plus"></button>
                                                                     </div>
                                                                 </div>
